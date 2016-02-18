@@ -5,7 +5,7 @@
 
 #define MaxSprites    255
 #include <string>
-#include "math.h"
+#include <math.h>
 struct
 {
 	Uint32 state;

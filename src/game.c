@@ -33,7 +33,6 @@ int main(int argc, char *argv[])
   {
     temp = IMG_Load(imagepath);/*notice that the path is part of the filename*/
   }
-  SDL_FreeSurface(temp);
   if(temp != NULL)
     SDL_BlitSurface(temp,NULL,buffer,NULL);
   tile = LoadSprite("images/32_32_16_2sprite.png",32,32);
@@ -45,6 +44,7 @@ int main(int argc, char *argv[])
         for(i = 0;i < 12;i++)
         {
             DrawSprite(tile,buffer,(i * tile->w) + tx,ty,0);
+			SDL_FreeSurface(temp);
         }
   }
   done = 0;
