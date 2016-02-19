@@ -11,11 +11,19 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\src\entity.c" />
     <ClCompile Include="..\src\game.c" />
     <ClCompile Include="..\src\graphics.c" />
+    <ClCompile Include="..\src\simple_logger.c" />
+    <ClCompile Include="..\src\sprite.c" />
+    <ClCompile Include="..\src\vector.c" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\src\entity.h" />
     <ClInclude Include="..\src\graphics.h" />
+    <ClInclude Include="..\src\simple_logger.h" />
+    <ClInclude Include="..\src\sprite.h" />
+    <ClInclude Include="..\src\vector.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{7FDED120-6E7E-4B36-A32B-C84298D67EDE}</ProjectGuid>

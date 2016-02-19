@@ -1,8 +1,11 @@
 #include <stdlib.h>
+#include <stdio.h>
+#include <string.h>
 #include "SDL.h"
 #include "SDL_image.h"
 #include "graphics.h"
-#include <string>
+#include "simple_logger.h"
+#include "sprite.h"
 
 extern SDL_Surface *screen;
 extern SDL_Surface *buffer; /*pointer to the draw buffer*/
@@ -20,63 +23,57 @@ void addCoordinateToFile(char *filepath,int x, int y);
 int main(int argc, char *argv[])
 {
   SDL_Surface *temp = NULL;
-  SDL_Surface *bg;
-  Sprite *tile;
-  int done;
   int i;
-  int mx,my;
+  int done;
   int tx = 0,ty = 0;
   const Uint8 *keys;
   char imagepath[512];
+  SDL_Rect srcRect={0,0,800,600};
   Init_All();
-  if (getImagePathFromFile(imagepath,"config.ini") == 0)
-  {
-    temp = IMG_Load(imagepath);/*notice that the path is part of the filename*/
-  }
-  if(temp != NULL)
-    SDL_BlitSurface(temp,NULL,buffer,NULL);
-  tile = LoadSprite("images/32_32_16_2sprite.png",32,32);
-  getCoordinatesFromFile(&tx, &ty,"config.ini");
-  fprintf(stdout,"x and y: (%i, %i)\n",tx,ty);
-  addCoordinateToFile("config.ini",7,11);
-  if(tile != NULL)
-  {
-        for(i = 0;i < 12;i++)
-        {
-            DrawSprite(tile,buffer,(i * tile->w) + tx,ty,0);
-			SDL_FreeSurface(temp);
-        }
-  }
+
+  temp = IMG_Load("images/bgtest.png");/*notice that the path is part of the filename*/
+
+  //if(temp != NULL)
+  //{
+  //      for(i = 0;i < 12;i++)
+  //      {
+  //          drawSprite(tile,buffer,(i * tile->w) + tx,ty,0);
+		//	SDL_FreeSurface(temp);
+  //      }
+
+  //}
+  slog("got here");
+  gt_graphics_render_surface_to_screen(temp,srcRect,0,0);
+  SDL_FreeSurface(temp);
+  slog("got here");
   done = 0;
   do
   {
-    ResetBuffer ();
-    DrawMouse();
+    ResetBuffer();
     NextFrame();
     SDL_PumpEvents();
     keys = SDL_GetKeyboardState(NULL);
-    if(SDL_GetMouseState(&mx,&my))
+    if(keys[SDL_SCANCODE_ESCAPE])
     {
-      DrawSprite(tile,buffer,(mx /32) * 32,(my /32) * 32,0); 
+        done = 1;
     }
-    if(keys[SDLK_ESCAPE])done = 1;
   }while(!done);
+  slog("got here");
   exit(0);		/*technically this will end the program, but the compiler likes all functions that can return a value TO return a value*/
   return 0;
 }
 
-void CleanUpAll()
-{
-  CloseSprites();
-  /*any other cleanup functions can be added here*/ 
-}
-
 void Init_All()
 {
-  Init_Graphics();
-
-  InitMouse();
-  atexit(CleanUpAll);
+	float bgcolor[] = {1,1,1,1};
+  Init_Graphics(
+	"Game Test",
+    800,
+    400,
+    800,
+    400,
+    bgcolor,
+    0);
 }
 
 int getImagePathFromFile(char *filepath,char * filename)
@@ -126,7 +123,7 @@ void addCoordinateToFile(char *filepath,int x, int y)
         fprintf(stderr,"unable to open file: %s\n",filepath);
         return;
     }
-    fprintf(fileptr,"newcoordinate: %i %i\n",x,y);
+    fprintf(fileptr,"%s:%i:newcoordinate: %i %i\n",__FILE__,__LINE__,x,y);
     fclose(fileptr);
 }
 

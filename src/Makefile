@@ -8,7 +8,7 @@
 # Object files.
 #
 
-OBJ = game.o graphics.o 
+OBJ = game.o graphics.o simple_logger.o vector.o sprite.o entity.o
 
 #
 # Compiler stuff -- adjust to your system.
@@ -17,8 +17,8 @@ OBJ = game.o graphics.o
 # Linux
 
 CC     = gcc
-SDL_CFLAGS = `sdl-config --cflags`
-SDL_LDFLAGS = `sdl-config --libs` -lSDL_image -lSDL_ttf -lSDL_mixer
+SDL_CFLAGS = `sdl2-config --cflags`
+SDL_LDFLAGS = `sdl2-config --libs` -lSDL2_image -lSDL2_ttf -lSDL2_mixer
 LFLAGS = -g -o ../gametest
 CFLAGS = -g -Wall -pedantic
 
@@ -45,8 +45,12 @@ count:
 # Dependencies.
 #
 
-graphics.o: graphics.c graphics.h
-game.o: game.c graphics.h
+entity.o:entity.c entity.h sprite.h vector.h
+sprite.o:sprite.c sprite.h vector.h
+vector.o: vector.c vector.h
+simple_logger.o: simple_logger.c simple_logger.h
+graphics.o: graphics.c graphics.h simple_logger.h
+game.o: game.c graphics.h simple_logger.h
 
 #
 # The default rule.
