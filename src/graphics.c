@@ -3,6 +3,7 @@
 #include <stdlib.h>
 #include "graphics.h"
 #include "simple_logger.h"
+#include <stdio.h>
 
 #define MaxSprites    255
 

@@ -20,31 +20,60 @@ void addCoordinateToFile(char *filepath,int x, int y);
 
 /*this program must be run from the directory directly below images and src, not from within src*/
 /*notice the default arguments for main.  SDL expects main to look like that, so don't change it*/
+/**
+ * @brief Main function for the game.
+ * @param argc count of arguments provided to the game.
+ * @param argv an array of the arguments provided to the game.
+ * @return always 0.
+ */
 int main(int argc, char *argv[])
 {
-  SDL_Surface *temp = NULL;
+  SDL_Surface *background = NULL;
+  SDL_Surface *ground = NULL;
+  SDL_Surface *foreground = NULL;
   int i;
   int done;
   int tx = 0,ty = 0;
   const Uint8 *keys;
   char imagepath[512];
-  SDL_Rect srcRect={0,0,800,600};
+  SDL_Rect srcRect={0,0,1600,600};
   Init_All();
 
-  temp = IMG_Load("images/bgtest.png");/*notice that the path is part of the filename*/
 
-  //if(temp != NULL)
-  //{
-  //      for(i = 0;i < 12;i++)
-  //      {
-  //          drawSprite(tile,buffer,(i * tile->w) + tx,ty,0);
-		//	SDL_FreeSurface(temp);
-  //      }
 
-  //}
+   background = IMG_Load("images/back_treeline.png");/*notice that the path is part of the filename*/
+  if(background == NULL)
+  {
+	  slog("COuld not load file: %s\n",SDL_GetError());
+  }
+
+  ground = IMG_Load("images/ground.png");/*notice that the path is part of the filename*/
+  if(ground == NULL)
+  {
+	  slog("COuld not load file: %s\n",SDL_GetError());
+  }
+
+  foreground = IMG_Load("images/front_treeline.png");/*notice that the path is part of the filename*/
+  if(foreground == NULL)
+  {
+	  slog("COuld not load file: %s\n",SDL_GetError());
+  }
+  /*if(temp != NULL)
+  {
+        for(i = 0;i < 12;i++)
+        {
+            drawSprite();
+			SDL_FreeSurface(temp);
+        }
+
+  }*/
   slog("got here");
-  gt_graphics_render_surface_to_screen(temp,srcRect,0,0);
-  SDL_FreeSurface(temp);
+  gt_graphics_render_surface_to_screen(background,srcRect,0,0);
+  gt_graphics_render_surface_to_screen(ground,srcRect,0,0);
+  gt_graphics_render_surface_to_screen(foreground,srcRect,0,0);
+  SDL_FreeSurface(background);
+  SDL_FreeSurface(ground);
+  SDL_FreeSurface(foreground);
   slog("got here");
   done = 0;
   do
@@ -62,18 +91,13 @@ int main(int argc, char *argv[])
   exit(0);		/*technically this will end the program, but the compiler likes all functions that can return a value TO return a value*/
   return 0;
 }
-
+/**
+* @brief function that initializes graphics and sets a background color.
+*/
 void Init_All()
 {
 	float bgcolor[] = {1,1,1,1};
-  Init_Graphics(
-	"Game Test",
-    800,
-    400,
-    800,
-    400,
-    bgcolor,
-    0);
+  Init_Graphics("Game Test",800,600,800,600,bgcolor,0);
 }
 
 int getImagePathFromFile(char *filepath,char * filename)

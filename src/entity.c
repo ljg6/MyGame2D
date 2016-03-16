@@ -105,4 +105,11 @@ void entity_update_all()
     }
 }
 
+/*int entity_intersect(Entity *a, Entity *b)
+{
+
+}
+
+
+
 /*eol@eof*/

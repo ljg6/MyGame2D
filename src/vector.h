@@ -8,7 +8,7 @@ typedef struct
 {
     float x;    /**<the x component of the vector*/
     float y;    /**<the y component of the vector*/
-}Vect2d;
+}Vec2d;
 
 typedef struct
 {

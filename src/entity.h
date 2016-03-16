@@ -10,8 +10,9 @@
 typedef struct Entity_S
 {
     int     inuse;              /**<flag for tracking resource use*/
-    Vect2d  position;
-    Vect2d  velocity;
+    Vec2d  position;
+    Vec2d  velocity;
+	SDL_Rect bounds;
     Sprite *sprite;
     int     frame;
     float   health,maxhealth;
@@ -36,6 +37,8 @@ void entity_initialization(Uint32 maxEntities);
  * @return NULL on error or no more space for entities or a valid entity pointer otherwise.
  */
 Entity *entity_new();
+
+
 
 void entity_free(Entity **entity);
 
