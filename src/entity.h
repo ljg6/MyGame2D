@@ -23,6 +23,7 @@ typedef struct Entity_S
     void    (*update)(struct Entity_S *self);
     void    (*touch)(struct Entity_S *self, struct Entity_S *other);
     void    (*free)(struct Entity_S *self); /**<cleanup function called on free*/
+	int animations[2][20];
 }Entity;
 
 
@@ -30,7 +31,7 @@ typedef struct Entity_S
  * @brief initializes entity system and queues up cleanup on exit
  * @param maxEntities how many entities the system should support.  Should not be zero
  */
-void entity_initialization(Uint32 maxEntities);
+void initEntitySystem(int maxEntities);
 
 /**
  * @brief return a pointer to an empty entity structure

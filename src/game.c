@@ -6,10 +6,23 @@
 #include "graphics.h"
 #include "simple_logger.h"
 #include "sprite.h"
+#include "entity.h"
+
+#define DIR_UP 0
+#define DIR_LEFT 1
+#define DIR_RIGHT 2
+#define DIR_DOWN 3
 
 extern SDL_Surface *screen;
 extern SDL_Surface *buffer; /*pointer to the draw buffer*/
 extern SDL_Rect Camera;
+
+Entity *player;
+Entity *enemy;
+Entity *itemPickup;
+Entity *weaponPickup;
+void moveCharacter(int direction, Entity *entity);
+
 
 void Init_All();
 
@@ -31,6 +44,7 @@ int main(int argc, char *argv[])
   SDL_Surface *background = NULL;
   SDL_Surface *ground = NULL;
   SDL_Surface *foreground = NULL;
+  SDL_Surface *test_player = NULL;
   int i;
   int done;
   int tx = 0,ty = 0;
@@ -38,10 +52,18 @@ int main(int argc, char *argv[])
   char imagepath[512];
   SDL_Rect srcRect={0,0,1600,600};
   Init_All();
+  player = entity_new();
+  player->sprite = loadSprite("images/test_player.png",40,40,1);
+  player->health = 100;
+  player->position.x = 0;
+  player->position.y = 400;
+  player->velocity.x = 0;
+  player->velocity.y=0;
+  
 
 
-
-   background = IMG_Load("images/back_treeline.png");/*notice that the path is part of the filename*/
+  
+  background = IMG_Load("images/back_treeline.png");/*notice that the path is part of the filename*/
   if(background == NULL)
   {
 	  slog("COuld not load file: %s\n",SDL_GetError());
@@ -58,6 +80,11 @@ int main(int argc, char *argv[])
   {
 	  slog("COuld not load file: %s\n",SDL_GetError());
   }
+  /*test_player = IMG_Load("images/test_player.png");/*notice that the path is part of the filename
+  if(foreground == NULL)
+  {
+	  slog("COuld not load file: %s\n",SDL_GetError());
+  }*/
   /*if(temp != NULL)
   {
         for(i = 0;i < 12;i++)
@@ -68,26 +95,55 @@ int main(int argc, char *argv[])
 
   }*/
   slog("got here");
+  
   gt_graphics_render_surface_to_screen(background,srcRect,0,0);
   gt_graphics_render_surface_to_screen(ground,srcRect,0,0);
   gt_graphics_render_surface_to_screen(foreground,srcRect,0,0);
-  SDL_FreeSurface(background);
-  SDL_FreeSurface(ground);
-  SDL_FreeSurface(foreground);
+  //gt_graphics_render_surface_to_screen(test_player,srcRect,2,5);
+
+ 
+  //SDL_FreeSurface(test_player);
   slog("got here");
   done = 0;
   do
   {
-    ResetBuffer();
+	SDL_RenderClear(gt_graphics_get_active_renderer());
+	gt_graphics_render_surface_to_screen(background,srcRect,0,0);
+    gt_graphics_render_surface_to_screen(ground,srcRect,0,0);
+    gt_graphics_render_surface_to_screen(foreground,srcRect,0,0);
+  //gt_graphics_render_surface_to_screen(test_player,srcRect,2,5);
+
+	ResetBuffer();
+	entity_draw_all();
     NextFrame();
     SDL_PumpEvents();
+	
     keys = SDL_GetKeyboardState(NULL);
     if(keys[SDL_SCANCODE_ESCAPE])
     {
         done = 1;
     }
+	else if(keys[SDL_SCANCODE_W])
+	{
+		moveCharacter(DIR_UP,player);
+	}
+	else if(keys[SDL_SCANCODE_A])
+	{
+		moveCharacter(DIR_LEFT,player);
+	}
+	else if(keys[SDL_SCANCODE_D])
+	{
+		moveCharacter(DIR_RIGHT,player);
+	}
+	else if(keys[SDL_SCANCODE_S])
+	{
+		moveCharacter(DIR_DOWN,player);
+	}
   }while(!done);
   slog("got here");
+  SDL_FreeSurface(background);
+  SDL_FreeSurface(ground);
+  SDL_FreeSurface(foreground);
   exit(0);		/*technically this will end the program, but the compiler likes all functions that can return a value TO return a value*/
   return 0;
 }
@@ -98,6 +154,9 @@ void Init_All()
 {
 	float bgcolor[] = {1,1,1,1};
   Init_Graphics("Game Test",800,600,800,600,bgcolor,0);
+  initEntitySystem(100);
+  initSpriteSystem(100);
+  
 }
 
 int getImagePathFromFile(char *filepath,char * filename)
@@ -187,4 +246,46 @@ int getCoordinatesFromFile(int *x, int *y,char * filename)
     if (x)*x = tx;
     if (y)*y = ty;
     return returnValue;
+}
+
+
+
+/**
+* @brief Moves the character on screen.
+* @param direction specifies which direction the character moves.
+*/
+void moveCharacter(int direction, Entity *entity)
+{
+	switch(direction)
+	{
+	case DIR_UP:
+		if(entity->position.y < 310)
+		{
+			return;
+		}
+		entity->position.y -= 3;
+
+		break;
+	case DIR_LEFT:
+		if(entity->position.x < 0)
+		{
+			return;
+		}
+		entity->position.x -= 3;
+		break;
+	case DIR_RIGHT:
+		if(entity->position.x > 800-64)
+		{
+			return;
+		}
+		entity->position.x += 3;
+		break;
+	case DIR_DOWN:
+		if(entity->position.y > 525-64)
+		{
+			return;
+		}
+		entity->position.y += 3;
+		break;
+	}
 }

@@ -14,6 +14,7 @@
 
 #define MAX(a,b) (a>b?a:b)
 #define MIN(a,b) (a<b?a:b)
+#define gt_rect_set(r,a,b,c,d) (r.x=a,r.y=b,r.w=c,r.h=d)
 
 void Init_Graphics(
 	char *windowName,

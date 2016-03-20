@@ -42,15 +42,18 @@ static Uint32 __gt_bmask;
 static Uint32 __gt_amask;
 
 void gt_graphics_close();
+/**
+* @brief Initializes SDL,provides the quit and graphics closing functions at exit, creates and sets up the window and renderer.
+* @param windowName the name of the window
+* @param viewWidth the width of the window
+* @param viewHeight the height of the window
+* @param renderWidth the width of what's being rendered
+* @param renderHeight the height of what'e being rendered.
+* @param bgcolor sets the background color.
+* @param fullscreen initializes fullscreen.
+*/
 
-void Init_Graphics(
-	char *windowName,
-    int viewWidth,
-    int viewHeight,
-    int renderWidth,
-    int renderHeight,
-    float bgcolor[4],
-    int fullscreen)
+void Init_Graphics(char *windowName,int viewWidth, int viewHeight, int renderWidth, int renderHeight, float bgcolor[4], int fullscreen)
 {
     Uint32 flags = 0;
     if (SDL_Init(SDL_INIT_EVERYTHING) != 0)
@@ -59,6 +62,11 @@ void Init_Graphics(
         return;
     }
     atexit(SDL_Quit);
+	if (IMG_Init(IMG_INIT_PNG) != IMG_INIT_PNG)
+    {
+        slog("Unable to initilaize IMG system: %s",SDL_GetError());
+        return;
+    }
     if (fullscreen)
     {
         if (renderWidth == 0)
@@ -116,7 +124,6 @@ void Init_Graphics(
                                     &__gt_bmask,
                                     &__gt_amask);
 
-    
     __gt_graphics_surface = SDL_CreateRGBSurface(0, renderWidth, renderHeight, __gt_bitdepth,
                                         __gt_rmask,
                                     __gt_gmask,
@@ -137,6 +144,10 @@ void Init_Graphics(
     atexit(gt_graphics_close);
     slog("graphics initialized\n");
 }
+
+
+
+
 
 void gt_graphics_render_surface_to_screen(SDL_Surface *surface,SDL_Rect srcRect,int x,int y)
 {

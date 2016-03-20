@@ -16,6 +16,7 @@
     <ClCompile Include="..\src\graphics.c" />
     <ClCompile Include="..\src\simple_logger.c" />
     <ClCompile Include="..\src\sprite.c" />
+    <ClCompile Include="player.c" />
     <ClCompile Include="vector.c" />
   </ItemGroup>
   <ItemGroup>
@@ -23,6 +24,7 @@
     <ClInclude Include="..\src\graphics.h" />
     <ClInclude Include="..\src\simple_logger.h" />
     <ClInclude Include="..\src\sprite.h" />
+    <ClInclude Include="player.h" />
     <ClInclude Include="vector.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
