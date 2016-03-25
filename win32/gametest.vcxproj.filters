@@ -30,10 +30,10 @@
     <ClCompile Include="..\src\entity.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="vector.c">
+    <ClCompile Include="..\src\vector.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="player.c">
+    <ClCompile Include="..\src\player.c">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -50,10 +50,13 @@
     <ClInclude Include="..\src\sprite.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="vector.h">
+    <ClInclude Include="player.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="player.h">
+    <ClInclude Include="..\src\player.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\vector.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

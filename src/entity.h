@@ -4,18 +4,32 @@
 #include "vector.h"
 #include "sprite.h"
 
+
+typedef enum 
+{
+	PLAYER,
+	HEALTHPACK,
+	PISTOLPACK,
+	SHOTGUNPACK,
+	MGPACK
+} ENTITYTYPES;
+
 /**
  * @brief the core data structure for our entity system
  */
 typedef struct Entity_S
 {
     int     inuse;              /**<flag for tracking resource use*/
+	int cleanUp;
+	char name[128];
     Vec2d  position;
     Vec2d  velocity;
 	SDL_Rect bounds;
     Sprite *sprite;
+	int cameraEnt; /**<true if the entity is drawn relative to the camera*/
     int     frame;
     float   health,maxhealth;
+	int		bullets,shells,rounds,maxBullets,maxShells,maxRounds;
     void    (*draw)(struct Entity_S *self,SDL_Renderer *renderer);
     int     nextThink; /**<time index for next think*/
     int     thinkRate; /**<how often to run think*/
@@ -46,5 +60,10 @@ void entity_free(Entity **entity);
 void entity_think_all();
 void entity_update_all();
 void entity_draw_all();
+void entity_touch_all();
+void pickup_Health(Entity *player,Entity *healthPickup);
+void pickup_PistolAmmo(Entity *player,Entity *PistolAmmoPickup);
+void pickup_ShotgunAmmo(Entity *player,Entity *ShotgunAmmoPickup);
+void pickup_MachinegunAmmo(Entity *player,Entity *MachinegunAmmoPickup);
 
 #endif

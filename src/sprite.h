@@ -21,9 +21,10 @@ typedef struct
 void initSpriteSystem(int maxSprites);
 void readAnimations(char *filename, int frames[2][20]);
 int fread_num(FILE *f);
+extern Vec2d scaleFactor;
 
 Sprite *loadSprite(char *filename,int frameW,int frameH, int fpl);
-void drawSprite(Sprite *sprite,int frame,Vec2d position,SDL_Renderer *renderer);
+void drawSprite(Sprite *sprite,int frame,Vec2d position,Vec2d scaleFactor,SDL_Renderer *renderer);
 
 /**
  * @brief frees a loaded sprite from memory

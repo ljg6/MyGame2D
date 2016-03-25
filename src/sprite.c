@@ -9,6 +9,7 @@ static Sprite * spriteList = NULL;
 static Uint32 MaxSprites = 0;
 extern int standAnimations[2][20];
 
+
 void closeSpriteSystem();
 
 void initSpriteSystem(int maxSprites)
@@ -62,7 +63,8 @@ Sprite *loadSprite(char *filename,int frameW,int frameH,int fpl)
     {
         if (spriteList[i].refCount == 0)
         {
-			sprite = &spriteList[i];
+			if(sprite == NULL)
+				sprite = &spriteList[i];
             continue;
         }
         if (strcmp(spriteList[i].filename,filename)==0)
@@ -81,6 +83,7 @@ Sprite *loadSprite(char *filename,int frameW,int frameH,int fpl)
 	readAnimations("text/playerframecount.txt",standAnimations);
 	
 	sprite->framesPerLine = fpl;
+	sprite->refCount = 1;
 
 	if (!surface)
     {
@@ -91,11 +94,11 @@ Sprite *loadSprite(char *filename,int frameW,int frameH,int fpl)
     
     return sprite;
 }
-void drawSprite(Sprite *sprite,int frame,Vec2d position,SDL_Renderer*)
+void drawSprite(Sprite *sprite,int frame,Vec2d position,Vec2d scaleFactor,SDL_Renderer*)
 {
     SDL_Rect cell,target;
     SDL_RendererFlip flipFlags = SDL_FLIP_NONE;
-    Vec2d scaleFactor = {1,1};
+
     Vec2d scaleOffset = {0,0};
     if (!sprite)
     {

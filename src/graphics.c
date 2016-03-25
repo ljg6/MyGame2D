@@ -216,10 +216,10 @@ void graphics_frame_delay()
         SDL_Delay(gt_graphics_frame_delay - diff);
     }
     gt_graphics_fps = 1000.0/MAX(SDL_GetTicks() - gt_graphics_then,0.001);
-    if (gt_graphics_print_fps)
-    {
-        slog("FPS: %f",gt_graphics_fps);
-    }
+    //if (gt_graphics_print_fps)
+   // {
+        //slog("FPS: %f",gt_graphics_fps);
+    //}
 }
 
 void NextFrame()
