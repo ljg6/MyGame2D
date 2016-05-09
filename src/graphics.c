@@ -29,8 +29,8 @@ static SDL_Surface  *   __gt_graphics_temp_buffer = NULL;
 
 /*timing*/
 static Uint32 gt_graphics_frame_delay = 30;
-static Uint32 gt_graphics_now = 0;
-static Uint32 gt_graphics_then = 0;
+Uint32 gt_graphics_now = 0;
+Uint32 gt_graphics_then = 0;
 static Uint8 gt_graphics_print_fps = 1;
 static float gt_graphics_fps = 0; 
 

@@ -31,6 +31,9 @@ typedef struct
 #define vec3d_add(a,b,c) (c.x=a.x+b.x,c.y=a.y+b.y,c.z=a.z+b.z)
 #define vec4d_add(a,b,c) (c.x=a.x+b.x,c.y=a.y+b.y,c.z=a.z+b.z,c.w=a.w+b.w)
 
+#define vec2d_sub(a,b,c) (c.x=a.x-b.x,c.y=a.y-b.y)
+#define vec3d_sub(a,b,c) (c.x=a.x-b.x,c.y=a.y-b.y,c.z=a.z-b.z)
+#define vec4d_sub(a,b,c) (c.x=a.x-b.x,c.y=a.y-b.y,c.z=a.z-b.z,c.w=a.w-b.w)
 SDL_Rect rect(int x, int y, int w, int h);
 int  rect_intersect(SDL_Rect a,SDL_Rect b);
 

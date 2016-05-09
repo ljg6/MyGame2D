@@ -3,6 +3,7 @@
 
 #include "vector.h"
 #include "sprite.h"
+#include "enemy.h"
 
 
 typedef enum 
@@ -28,8 +29,14 @@ typedef struct Entity_S
     Sprite *sprite;
 	int cameraEnt; /**<true if the entity is drawn relative to the camera*/
     int     frame;
-    float   health,maxhealth;
-	int		bullets,shells,rounds,maxBullets,maxShells,maxRounds;
+	int		nextStep;
+	int		step;
+	int		animation;
+	int		facingLeft;
+	ENEMY soldierPistol;
+	ENEMY soldierShotgun;
+	ENEMY soldierMachinegun;
+	ENEMY soldierHeavyMachinegun;
     void    (*draw)(struct Entity_S *self,SDL_Renderer *renderer);
     int     nextThink; /**<time index for next think*/
     int     thinkRate; /**<how often to run think*/
@@ -37,7 +44,7 @@ typedef struct Entity_S
     void    (*update)(struct Entity_S *self);
     void    (*touch)(struct Entity_S *self, struct Entity_S *other);
     void    (*free)(struct Entity_S *self); /**<cleanup function called on free*/
-	int animations[2][20];
+	
 }Entity;
 
 
@@ -46,6 +53,8 @@ typedef struct Entity_S
  * @param maxEntities how many entities the system should support.  Should not be zero
  */
 void initEntitySystem(int maxEntities);
+
+void resetAnimation(Entity *e, int animation);
 
 /**
  * @brief return a pointer to an empty entity structure

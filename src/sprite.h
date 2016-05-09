@@ -13,18 +13,20 @@ typedef struct
    int framesPerLine; /**<how many frames per line in this sprite sheet*/
    //int imageFPL;        /**<how many frames per line in this sprite sheet*/
    Vec2d frameSize;    /**<the dimensions of a frame in the sprite sheet*/
-   int animation[2][20];
+   Animation animations[2];
+   int positionX;
    
 
 }Sprite;
 
 void initSpriteSystem(int maxSprites);
-void readAnimations(char *filename, int frames[2][20]);
+void readAnimations(char *filename, Animation *a);
 int fread_num(FILE *f);
 extern Vec2d scaleFactor;
 
 Sprite *loadSprite(char *filename,int frameW,int frameH, int fpl);
-void drawSprite(Sprite *sprite,int frame,Vec2d position,Vec2d scaleFactor,SDL_Renderer *renderer);
+Sprite * loadSpriteGraphics(char * spriteFile, char * animationFile,int frameW,int frameH,int fpl);
+void drawSprite(Sprite *sprite,int frame,Vec2d position,Vec2d scaleFactor,int flip,SDL_Renderer *renderer);
 
 /**
  * @brief frees a loaded sprite from memory
